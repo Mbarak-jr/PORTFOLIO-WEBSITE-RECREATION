@@ -1,50 +1,190 @@
-.contact-info .info-item {
-    background-color: white;
-    padding: 20px;
-    border-radius: 8px;
-    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+/* Contact Page Specific Styles */
+.contact-section {
+    padding-top: 80px;
+    /* Space below fixed navbar */
+}
+
+/* Page Header */
+.contact-section .divider {
+    width: 80px;
+    height: 4px;
+    background: #0d6efd;
+    margin: 20px auto;
+}
+
+/* Contact Cards */
+.contact-info-card,
+.contact-form-card {
+    background: white;
+    border-radius: 10px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+    transition: all 0.3s ease;
+    border: none;
+    position: relative;
+    overflow: hidden;
+}
+
+.contact-info-card:hover,
+.contact-form-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+}
+
+.contact-info-card::before,
+.contact-form-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 5px;
+    background: #0d6efd;
+    transform: scaleX(0);
+    transform-origin: left;
     transition: transform 0.3s ease;
 }
 
-.contact-info .info-item:hover {
-    transform: translateY(-5px);
+.contact-info-card:hover::before,
+.contact-form-card:hover::before {
+    transform: scaleX(1);
 }
 
-.contact-info i {
-    font-size: 1.5rem;
+/* Info Items */
+.info-item {
+    padding: 15px 0;
+    border-bottom: 1px solid #eee;
+}
+
+.info-icon {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(13, 110, 253, 0.1);
     color: #0d6efd;
-    margin-top: 5px;
+    font-size: 1.2rem;
+    transition: all 0.3s ease;
 }
 
-.contact-info h4 {
+.info-item:hover .info-icon {
+    background: #0d6efd;
+    color: white;
+    transform: rotate(15deg);
+}
+
+/* Social Icons */
+.social-icon {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(13, 110, 253, 0.1);
     color: #0d6efd;
-    margin-bottom: 5px;
+    transition: all 0.3s ease;
 }
 
-.contact-form {
-    background-color: white;
-    padding: 30px;
-    border-radius: 8px;
-    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+.social-icon:hover {
+    background: #0d6efd;
+    color: white;
+    transform: translateY(-3px);
 }
 
-.contact-form .form-control {
-    padding: 12px;
-    border: 1px solid #ddd;
-    margin-bottom: 15px;
+/* Form Styles */
+.form-control {
+    border: 1px solid #eee;
+    padding: 1rem;
+    transition: all 0.3s ease;
 }
 
-.contact-form .form-control:focus {
+.form-control:focus {
     border-color: #0d6efd;
     box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.25);
 }
 
-.contact-form textarea {
-    resize: vertical;
-    min-height: 150px;
+.form-floating label {
+    color: #6c757d;
 }
 
-.contact-form .btn {
-    padding: 12px 30px;
-    font-weight: 500;
+.btn-primary {
+    padding: 0.75rem 1.5rem;
+    font-weight: 600;
+    transition: all 0.3s ease;
+}
+
+.btn-primary:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 5px 15px rgba(13, 110, 253, 0.3);
+}
+
+/* Dark Theme Adjustments */
+.dark-theme .contact-info-card,
+.dark-theme .contact-form-card {
+    background-color: #1e1e1e;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+}
+
+.dark-theme .contact-info-card:hover,
+.dark-theme .contact-form-card:hover {
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+}
+
+.dark-theme .info-item {
+    border-bottom-color: #3d3d3d;
+}
+
+.dark-theme .form-control {
+    background-color: #2d2d2d;
+    border-color: #3d3d3d;
+    color: #f8f9fa;
+}
+
+.dark-theme .form-floating label {
+    color: #adb5bd;
+}
+
+.dark-theme .social-icon {
+    background: rgba(13, 110, 253, 0.2);
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+    .contact-section {
+        padding-top: 70px;
+    }
+
+    .contact-info-card,
+    .contact-form-card {
+        margin-bottom: 30px;
+    }
+
+    .info-item {
+        padding: 12px 0;
+    }
+
+    .info-icon {
+        width: 40px;
+        height: 40px;
+        font-size: 1rem;
+    }
+}
+
+/* Animation */
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.animate-fadeInUp {
+    animation: fadeInUp 0.6s ease forwards;
 }

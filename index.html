@@ -38,6 +38,16 @@
     <script src="https://cdn.jsdelivr.net/npm/typed.js@2.0.12"></script>
     <script src="js/main.js"></script>
     <script src="js/theme-toggle.js"></script>
+
+    <script>
+        // Initialize after components load
+        includeHTML().then(() => {
+            // Any home page specific JS
+            console.log("Home page loaded successfully");
+        }).catch(err => {
+            console.error("Error loading components:", err);
+        });
+    </script>
 </body>
 
 </html>

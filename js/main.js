@@ -1,25 +1,36 @@
-// main.js - Optimized for component loading
+// main.js - Enhanced version with navigation fixes
 document.addEventListener('DOMContentLoaded', function() {
     // First include all components
     includeHTML().then(() => {
         // Initialize all functionality after components load
+        initNavigation();
         initTypedJS();
         initCounters();
         initBackToTop();
         initThemeToggle();
+        
+        // Debug log to verify home page load
+        if (window.location.pathname.endsWith('index.html') || 
+            window.location.pathname === '/') {
+            console.log('Home page loaded successfully');
+        }
+    }).catch(error => {
+        console.error('Error initializing page:', error);
     });
 });
 
-// Improved includeHTML function with Promise
+// Improved includeHTML function with better error handling
 function includeHTML() {
-    return new Promise((resolve) => {
-        let elements = document.querySelectorAll('[w3-include-html]');
-        let remaining = elements.length;
-        
-        if (remaining === 0) {
-            resolve();
-            return;
+    return new Promise((resolve, reject) => {
+        const elements = document.querySelectorAll('[w3-include-html]');
+        if (elements.length === 0) {
+            console.warn('No components found to include');
+            return resolve();
         }
+
+        let loadedCount = 0;
+        const totalElements = elements.length;
+        const errors = [];
 
         elements.forEach(element => {
             const file = element.getAttribute('w3-include-html');
@@ -32,38 +43,93 @@ function includeHTML() {
                 })
                 .then(html => {
                     element.innerHTML = html;
-                    // Process any scripts in the included HTML
-                    const scripts = element.querySelectorAll('script');
-                    scripts.forEach(script => {
-                        const newScript = document.createElement('script');
-                        if (script.src) {
-                            newScript.src = script.src;
+                    processScripts(element);
+                    loadedCount++;
+                    
+                    if (loadedCount === totalElements) {
+                        if (errors.length > 0) {
+                            reject(new Error(`Failed to load ${errors.length} components`));
                         } else {
-                            newScript.textContent = script.textContent;
+                            resolve();
                         }
-                        document.body.appendChild(newScript).remove();
-                    });
-                    remaining--;
-                    if (remaining === 0) resolve();
+                    }
                 })
                 .catch(error => {
-                    console.error(error);
-                    element.innerHTML = 'Component loading failed';
-                    remaining--;
-                    if (remaining === 0) resolve();
+                    console.error(`Error loading ${file}:`, error);
+                    element.innerHTML = `<div class="alert alert-danger">Failed to load component: ${file}</div>`;
+                    errors.push(error);
+                    loadedCount++;
+                    
+                    if (loadedCount === totalElements) {
+                        if (errors.length > 0) {
+                            reject(new Error(`Failed to load ${errors.length} components`));
+                        } else {
+                            resolve();
+                        }
+                    }
                 });
         });
     });
 }
 
+function processScripts(element) {
+    const scripts = element.querySelectorAll('script');
+    scripts.forEach(script => {
+        const newScript = document.createElement('script');
+        if (script.src) {
+            newScript.src = script.src;
+            newScript.async = false;
+        } else {
+            newScript.textContent = script.textContent;
+        }
+        document.body.appendChild(newScript).remove();
+    });
+}
+
+// NEW: Navigation initialization to ensure proper page loading
+function initNavigation() {
+    // Highlight current page in navbar
+    const currentPage = window.location.pathname.split('/').pop() || 'index.html';
+    const navLinks = document.querySelectorAll('.nav-link');
+    
+    navLinks.forEach(link => {
+        const linkPage = link.getAttribute('href');
+        if (linkPage === currentPage || 
+            (currentPage === '' && linkPage === 'index.html')) {
+            link.classList.add('active');
+            link.setAttribute('aria-current', 'page');
+        } else {
+            link.classList.remove('active');
+            link.removeAttribute('aria-current');
+        }
+    });
+
+    // Prevent default for all nav links to handle programmatically
+    document.querySelectorAll('a').forEach(link => {
+        if (link.getAttribute('href')?.startsWith('#')) {
+            link.addEventListener('click', function(e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth' });
+                }
+            });
+        }
+    });
+}
+
 function initTypedJS() {
     if (document.querySelector('.typed-text')) {
-        new Typed('.typed-text', {
-            strings: ["Software Developer", "Cybersecurity Specialist", "Data Analyst", "Full Stack Engineer"],
-            typeSpeed: 50,
-            backSpeed: 30,
-            loop: true
-        });
+        try {
+            new Typed('.typed-text', {
+                strings: ["Software Developer", "Cybersecurity Specialist", "Data Analyst", "Full Stack Engineer"],
+                typeSpeed: 50,
+                backSpeed: 30,
+                loop: true
+            });
+        } catch (error) {
+            console.error('Typed.js initialization error:', error);
+        }
     }
 }
 
@@ -87,13 +153,12 @@ function initCounters() {
             }
         };
         
-        // Start counting when element is in viewport
         const observer = new IntersectionObserver((entries) => {
             if(entries[0].isIntersecting) {
                 updateCount();
                 observer.unobserve(counter);
             }
-        });
+        }, { threshold: 0.5 });
         
         observer.observe(counter);
     });
@@ -104,11 +169,7 @@ function initBackToTop() {
     if (!backToTopButton) return;
 
     window.addEventListener('scroll', () => {
-        if (window.pageYOffset > 300) {
-            backToTopButton.classList.add('show');
-        } else {
-            backToTopButton.classList.remove('show');
-        }
+        backToTopButton.classList.toggle('show', window.pageYOffset > 300);
     });
     
     backToTopButton.addEventListener('click', (e) => {
@@ -133,14 +194,22 @@ function initThemeToggle() {
     
     // Toggle theme
     themeToggle.addEventListener('click', function() {
-        document.body.classList.toggle('dark-theme');
-        
-        if (document.body.classList.contains('dark-theme')) {
-            localStorage.setItem('theme', 'dark');
-            if (icon) icon.classList.replace('fa-moon', 'fa-sun');
-        } else {
-            localStorage.setItem('theme', 'light');
-            if (icon) icon.classList.replace('fa-sun', 'fa-moon');
+        const isDark = document.body.classList.toggle('dark-theme');
+        localStorage.setItem('theme', isDark ? 'dark' : 'light');
+        if (icon) {
+            icon.classList.toggle('fa-moon', !isDark);
+            icon.classList.toggle('fa-sun', isDark);
         }
     });
 }
+
+// Error handling for failed component loads
+window.addEventListener('error', (event) => {
+    console.error('Global error:', event.error);
+    if (event.filename.includes('components')) {
+        const errorElement = document.createElement('div');
+        errorElement.className = 'alert alert-danger m-3';
+        errorElement.textContent = `Failed to load component: ${event.message}`;
+        document.body.prepend(errorElement);
+    }
+});
