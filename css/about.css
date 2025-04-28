@@ -1,0 +1,105 @@
+/* About Page Specific Styles */
+.about-section {
+    padding-top: 80px;
+    /* Space below fixed navbar */
+}
+
+/* Page Header */
+.about-section .divider {
+    width: 80px;
+    height: 4px;
+    background: #0d6efd;
+    margin: 20px auto;
+}
+
+/* Content Styling */
+.about-content h2 {
+    font-size: 2rem;
+    line-height: 1.3;
+    margin-bottom: 1.5rem;
+}
+
+.bio-text p {
+    margin-bottom: 1.2rem;
+    line-height: 1.8;
+}
+
+/* Image Container */
+.about-image-container {
+    position: relative;
+}
+
+.about-image {
+    border: 8px solid white;
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+}
+
+.experience-badge {
+    position: absolute;
+    bottom: 20px;
+    left: 20px;
+    font-weight: 600;
+    box-shadow: 0 5px 15px rgba(13, 110, 253, 0.3);
+}
+
+/* Info Cards */
+.info-card {
+    border: none;
+    border-radius: 10px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+    transition: all 0.3s ease;
+}
+
+.info-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+}
+
+.info-card .card-body {
+    padding: 1.5rem;
+}
+
+.info-card ul li {
+    padding: 5px 0;
+}
+
+/* Dark Theme Adjustments */
+.dark-theme .about-image {
+    border-color: #2d2d2d;
+}
+
+.dark-theme .info-card {
+    background-color: #1e1e1e;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+}
+
+.dark-theme .info-card:hover {
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+}
+
+/* Responsive Adjustments */
+@media (max-width: 992px) {
+    .about-section {
+        padding-top: 70px;
+    }
+
+    .about-content {
+        padding-right: 0 !important;
+        margin-bottom: 40px;
+    }
+
+    .about-image {
+        max-width: 500px;
+        margin: 0 auto;
+    }
+}
+
+@media (max-width: 768px) {
+    .about-section h1 {
+        font-size: 2.5rem;
+    }
+
+    .about-section h2 {
+        font-size: 1.8rem;
+    }
+}

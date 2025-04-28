@@ -1,0 +1,46 @@
+/* Dark Theme Styles */
+.dark-theme {
+    background-color: #121212;
+    color: #e0e0e0;
+}
+
+.dark-theme .hero-section,
+.dark-theme .service-card,
+.dark-theme .timeline-content,
+.dark-theme .contact-info .info-item,
+.dark-theme .contact-form {
+    background-color: #1e1e1e;
+    color: #e0e0e0;
+}
+
+.dark-theme .navbar,
+.dark-theme footer {
+    background-color: #0d0d0d !important;
+}
+
+.dark-theme .form-control {
+    background-color: #2d2d2d;
+    color: #e0e0e0;
+    border-color: #444;
+}
+
+.dark-theme .form-control:focus {
+    background-color: #2d2d2d;
+    color: #e0e0e0;
+    border-color: #0d6efd;
+}
+
+.dark-theme .section-title,
+.dark-theme .section-subtitle,
+.dark-theme h1,
+.dark-theme h2,
+.dark-theme h3,
+.dark-theme h4,
+.dark-theme h5,
+.dark-theme h6 {
+    color: #ffffff;
+}
+
+.dark-theme .progress {
+    background-color: #2d2d2d;
+}

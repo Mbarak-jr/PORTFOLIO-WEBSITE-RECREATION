@@ -1,0 +1,58 @@
+.skills-section {
+    background-color: #f8f9fa;
+    min-height: calc(100vh - 120px);
+}
+
+.skill-item {
+    margin-bottom: 2rem;
+}
+
+.skill-item h3 {
+    font-size: 1.1rem;
+    margin-bottom: 0.5rem;
+}
+
+.progress {
+    height: 8px;
+    border-radius: 4px;
+    background-color: #e9ecef;
+}
+
+.progress-bar {
+    background-color: #0d6efd;
+    transition: width 1s ease-in-out;
+}
+
+.skill-badge {
+    display: inline-block;
+    background-color: #0d6efd;
+    color: white;
+    padding: 5px 15px;
+    border-radius: 20px;
+    margin: 5px;
+    font-size: 0.9rem;
+}
+
+/* Animation for progress bars */
+@keyframes progressAnimation {
+    from {
+        width: 0;
+    }
+}
+
+.progress-bar {
+    animation: progressAnimation 1.5s ease-in-out forwards;
+}
+
+/* Dark theme adjustments */
+.dark-theme .skills-section {
+    background-color: #121212;
+}
+
+.dark-theme .progress {
+    background-color: #2d2d2d;
+}
+
+.dark-theme .skill-badge {
+    background-color: #4d9eff;
+}
